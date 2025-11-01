@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MY UNIFI PAYLOAD v1.1</title>
+  <title>MY UNIFI PAYLOAD v1.2</title>
   <style>
     :root {
       --bg: #0d1117;
@@ -70,6 +70,7 @@
       font-family: 'Courier New', monospace;
       white-space: pre;
       overflow-x: auto;
+      line-height: 1.4;
     }
     .btn {
       background: var(--accent);
@@ -84,7 +85,7 @@
     }
     .btn:hover {
       background: #1f6feb;
-      transform: translateY(-1px);
+      transform: first-child translateY(-1px);
     }
     .btn-copy {
       background: #238636;
@@ -110,9 +111,9 @@
 </head>
 <body>
   <div class="container">
-    <h1>MY UNIFI PAYLOAD v1.1</h1>
+    <h1>MY UNIFI PAYLOAD v1.2</h1>
     <div class="info">
-      <strong>215+ ZT Domains • 100+ Payloads • Always Dark</strong><br>
+      <strong>215+ ZT Domains • 100+ Payloads • Clean Copy</strong><br>
       <span id="update-date">Updated: November 01, 2025</span>
     </div>
 
@@ -132,21 +133,33 @@
     </div>
 
     <div class="section">
-      <label>4. User-Agent (Optional)</label>
-      <input type="text" id="user-agent" placeholder="Leave empty for default" />
+      <label>4. User-Agent (Android Phones)</label>
+      <select id="user-agent">
+        <option value="">Default (Chrome Android)</option>
+        <option value="Mozilla/5.0 (Linux; Android 14; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.146 Mobile Safari/537.36">Samsung S24 Ultra</option>
+        <option value="Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6613.146 Mobile Safari/537.36">Google Pixel 7</option>
+        <option value="Mozilla/5.0 (Linux; Android 12; Redmi Note 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36">Redmi Note 11</option>
+        <option value="Mozilla/5.0 (Linux; Android 11; vivo 1907) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36">Vivo Y19</option>
+        <option value="Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36">Generic Android 10</option>
+        <option value="Mozilla/5.0 (Linux; Android 13; M2101K6G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36">Xiaomi 11T</option>
+        <option value="Mozilla/5.0 (Linux; Android 12; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36">Samsung S21</option>
+        <option value="Mozilla/5.0 (Linux; Android 14; OPPO CPH2481) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36">OPPO Reno 11</option>
+        <option value="Mozilla/5.0 (Linux; Android 13; ONEPLUS A6013) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36">OnePlus 9</option>
+        <option value="Mozilla/5.0 (Linux; Android 12; realme RMX3511) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36">Realme 9 Pro</option>
+      </select>
     </div>
 
     <button class="btn" onclick="generatePayload()">GENERATE PAYLOAD</button>
     <button class="btn btn-copy" onclick="copyPayload()">COPY</button>
 
     <div class="section">
-      <label>5. Final Payload (Copy Ready)</label>
-      <textarea id="output" readonly placeholder="Click GENERATE to see payload..."></textarea>
+      <label>5. Final Payload (Clean Copy)</label>
+      <textarea id="output" readonly placeholder="Click GENERATE to see clean payload..."></textarea>
     </div>
 
     <div class="footer">
       Made with <3 by <a href="https://t.me/sivd" target="_blank">@sivd</a> • 
-      <a href="https://github.com/sivd/my-unifi-payload-v1.1" target="_blank">GitHub v1.1</a>
+      <a href="https://github.com/sivd/my-unifi-payload-v1.2" target="_blank">GitHub v1.2</a>
     </div>
   </div>
 
@@ -174,29 +187,39 @@
       payloadSelect.appendChild(opt);
     });
 
-    // Default values
-    const defaultUA = "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36";
+    // Default UA
+    const DEFAULT_UA = "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36";
 
     function generatePayload() {
       const domain = document.getElementById('domain-select').value;
       const payloadTemplate = document.getElementById('payload-select').value;
       const tunnel = document.getElementById('tunnel-host').value.trim() || domain;
-      const ua = document.getElementById('user-agent').value.trim() || defaultUA;
+      const selectedUA = document.getElementById('user-agent').value;
+      const ua = selectedUA || DEFAULT_UA;
 
+      // Replace placeholders and CLEAN output
       let payload = payloadTemplate
         .replace(/\[DOMAIN\]/g, domain)
         .replace(/\[TUNNEL\]/g, tunnel)
         .replace(/\[UA\]/g, ua)
-        .replace(/\[crlf\]/g, '\r\n');
+        .replace(/\[crlf\]/g, '\r\n')
+        .replace(/\r\n\r\n/g, '\r\n')  // Remove double newlines
+        .replace(/^\r\n|\r\n$/g, '')   // Trim start/end
+        .trim();
 
       document.getElementById('output').value = payload;
     }
 
     function copyPayload() {
       const output = document.getElementById('output');
+      if (!output.value) {
+        alert('Generate payload first!');
+        return;
+      }
       output.select();
+      output.setSelectionRange(0, 99999); // For mobile
       document.execCommand('copy');
-      alert('Payload copied to clipboard!');
+      alert('Payload copied! No extra spaces.');
     }
 
     // Auto-generate on load
