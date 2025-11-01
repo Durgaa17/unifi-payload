@@ -3,139 +3,206 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MY UNIFI PAYLOAD v3</title>
+  <title>MY UNIFI PAYLOAD v1.1</title>
   <style>
-    :root { --p: #00ff9d; --d: #0a1a2e; --l: #e0f7fa; --bg: #0a0e17; --card: #0f2a3f; }
-    [data-theme="light"] { --p: #00b86e; --d: #ffffff; --l: #222; --bg: #f5f5f5; --card: #ffffff; }
-    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Courier New', monospace; }
-    body { background:var(--bg); color:var(--l); padding:15px; line-height:1.7; transition:0.3s; }
-    .container { max-width:600px; margin:auto; background:var(--card); padding:20px; border-radius:12px; border:2px solid var(--p); box-shadow:0 0 15px rgba(0,255,157,0.3); }
-    h1 { text-align:center; color:var(--p); font-size:1.6rem; margin-bottom:8px; }
-    .author { text-align:center; color:var(--p); font-weight:bold; font-size:0.9rem; margin-bottom:15px; }
-    .disclaimer { background:#220000; color:#ff6b6b; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:20px; border:1px solid #ff4444; }
-    .disclaimer strong { color:#ff3333; }
-    label { display:block; margin:15px 0 6px; color:var(--p); font-weight:bold; font-size:0.95rem; }
-    select, input { width:100%; padding:11px; border-radius:8px; border:1px solid #004d40; background:var(--d); color:var(--l); font-family:monospace; }
-    button { width:100%; padding:14px; margin:20px 0 10px; background:var(--p); color:#000; font-weight:bold; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer; transition:0.3s; }
-    button:hover { background:#00cc7a; transform:scale(1.01); }
-    .output { margin-top:15px; padding:14px; background:var(--d); border:1px solid var(--p); border-radius:8px; white-space:pre-wrap; font-family:monospace; font-size:0.88rem; max-height:280px; overflow:auto; display:none; }
-    .copy, .ehi { margin-top:8px; padding:10px; background:#004d40; color:#00ff9d; border:none; cursor:pointer; width:48%; display:inline-block; border-radius:6px; font-weight:bold; display:none; }
-    .ehi { margin-left:4%; background:#33004d; color:#ff00ff; }
-    .theme-toggle { position:fixed; top:15px; right:15px; background:var(--p); color:#000; border:none; padding:10px; border-radius:50%; font-size:1.2rem; cursor:pointer; }
-    .update { text-align:center; font-size:0.8rem; color:#00cc7a; margin-top:10px; }
-    .footer { text-align:center; margin-top:25px; font-size:0.75rem; color:#555; }
+    :root {
+      --bg: #0d1117;
+      --card: #161b22;
+      --text: #f0f6fc;
+      --accent: #58a6ff;
+      --border: #30363d;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 1rem;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+      font-size: 1.8rem;
+    }
+    .info {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #8b949e;
+      margin-bottom: 1.5rem;
+    }
+    .section {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+    }
+    select:focus, input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(88,166,255,0.2);
+    }
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+      font-family: 'Courier New', monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: 0.2s;
+    }
+    .btn:hover {
+      background: #1f6feb;
+      transform: translateY(-1px);
+    }
+    .btn-copy {
+      background: #238636;
+      margin-left: 0.5rem;
+    }
+    .btn-copy:hover {
+      background: #1a5e2a;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #8b949e;
+    }
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <button class="theme-toggle" onclick="toggleTheme()">Light/Dark</button>
   <div class="container">
-    <h1>MY UNIFI PAYLOAD v3</h1>
-    <div class="author">Code by sivd • Telegram @sivd</div>
-
-    <!-- STRONG DISCLAIMER -->
-    <div class="disclaimer">
-      <strong>LEGAL DISCLAIMER</strong><br>
-      This tool is <strong>FOR EDUCATIONAL PURPOSES ONLY</strong>. 
-      We do <strong>NOT promote illegal bypassing</strong> of ISP restrictions. 
-      All use is at <strong>YOUR OWN RISK</strong>. No liability accepted.
+    <h1>MY UNIFI PAYLOAD v1.1</h1>
+    <div class="info">
+      <strong>215+ ZT Domains • 100+ Payloads • Always Dark</strong><br>
+      <span id="update-date">Updated: November 01, 2025</span>
     </div>
 
-    <label>1. Select Domain (215+ MY ZT)</label>
-    <select id="domain"></select>
+    <div class="section">
+      <label>1. Select Domain (ZT + CF)</label>
+      <select id="domain-select"></select>
+    </div>
 
-    <label>2. Select Payload (100+ Variants)</label>
-    <select id="payload"></select>
+    <div class="section">
+      <label>2. Select Payload Variant</label>
+      <select id="payload-select"></select>
+    </div>
 
-    <label>3. Tunnel Host</label>
-    <input type="text" id="tunnel" placeholder="e.g. sg-public3.sshws.net" />
+    <div class="section">
+      <label>3. Tunnel Host (SNI / Proxy Host)</label>
+      <input type="text" id="tunnel-host" placeholder="e.g. bug.unifi.com.my" />
+    </div>
 
-    <button onclick="gen()">GENERATE PAYLOAD</button>
+    <div class="section">
+      <label>4. User-Agent (Optional)</label>
+      <input type="text" id="user-agent" placeholder="Leave empty for default" />
+    </div>
 
-    <div id="out" class="output"></div>
-    <button class="copy" id="copy" onclick="copyIt()">COPY PAYLOAD</button>
-    <button class="ehi" id="ehi" onclick="exportEHI()">EXPORT .EHI</button>
+    <button class="btn" onclick="generatePayload()">GENERATE PAYLOAD</button>
+    <button class="btn btn-copy" onclick="copyPayload()">COPY</button>
 
-    <div class="update" id="update">Last updated: <span id="date"></span></div>
-  </div>
+    <div class="section">
+      <label>5. Final Payload (Copy Ready)</label>
+      <textarea id="output" readonly placeholder="Click GENERATE to see payload..."></textarea>
+    </div>
 
-  <div class="footer">
-    215+ Domains • 100+ Payloads • Add in <code>data.js</code>
+    <div class="footer">
+      Made with <3 by <a href="https://t.me/sivd" target="_blank">@sivd</a> • 
+      <a href="https://github.com/sivd/my-unifi-payload-v1.1" target="_blank">GitHub v1.1</a>
+    </div>
   </div>
 
   <script src="data.js"></script>
   <script>
-    // Theme
-    function toggleTheme() {
-      document.body.dataset.theme = document.body.dataset.theme === "light" ? "" : "light";
-      localStorage.setItem("theme", document.body.dataset.theme);
-    }
-    if (localStorage.getItem("theme") === "light") document.body.dataset.theme = "light";
+    // Auto update date
+    document.getElementById('update-date').textContent = 
+      `Updated: ${new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}`;
 
-    // Update date
-    document.getElementById("date").textContent = new Date().toLocaleString();
-
-    // Populate domains
-    const d = document.getElementById("domain");
-    DOMAINS.forEach(x => {
-      const opt = document.createElement("option");
-      opt.value = x.host;
-      opt.textContent = `${x.name} ${x.cf ? '[CF]' : ''} ${x.zt ? '[ZT]' : ''}`;
-      d.appendChild(opt);
+    // Populate Domains
+    const domainSelect = document.getElementById('domain-select');
+    DOMAINS.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d.host;
+      opt.textContent = `${d.name} (${d.host})`;
+      domainSelect.appendChild(opt);
     });
 
-    // Populate payloads
-    const p = document.getElementById("payload");
-    PAYLOADS.forEach((x,i) => {
-      const opt = document.createElement("option");
-      opt.value = i;
-      opt.textContent = x.name;
-      p.appendChild(opt);
+    // Populate Payloads
+    const payloadSelect = document.getElementById('payload-select');
+    PAYLOADS.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.payload;
+      opt.textContent = p.name;
+      payloadSelect.appendChild(opt);
     });
 
-    function gen() {
-      const domain = d.value;
-      const idx = p.value;
-      const tunnel = document.getElementById("tunnel").value.trim();
-      if (!domain || !tunnel) return alert("Fill Domain & Tunnel Host!");
+    // Default values
+    const defaultUA = "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36";
 
-      let payload = PAYLOADS[idx].payload
+    function generatePayload() {
+      const domain = document.getElementById('domain-select').value;
+      const payloadTemplate = document.getElementById('payload-select').value;
+      const tunnel = document.getElementById('tunnel-host').value.trim() || domain;
+      const ua = document.getElementById('user-agent').value.trim() || defaultUA;
+
+      let payload = payloadTemplate
         .replace(/\[DOMAIN\]/g, domain)
         .replace(/\[TUNNEL\]/g, tunnel)
-        .replace(/\[UA\]/g, "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1");
+        .replace(/\[UA\]/g, ua)
+        .replace(/\[crlf\]/g, '\r\n');
 
-      const out = document.getElementById("out");
-      out.textContent = payload.replace(/\[crlf\]/g, "\\r\\n");
-      out.style.display = "block";
-      document.getElementById("copy").style.display = "inline-block";
-      document.getElementById("ehi").style.display = "inline-block";
+      document.getElementById('output').value = payload;
     }
 
-    function copyIt() {
-      navigator.clipboard.writeText(document.getElementById("out").textContent)
-        .then(() => alert("Payload copied! Paste in HTTP Injector"));
+    function copyPayload() {
+      const output = document.getElementById('output');
+      output.select();
+      document.execCommand('copy');
+      alert('Payload copied to clipboard!');
     }
 
-    function exportEHI() {
-      const payload = document.getElementById("out").textContent;
-      const domain = document.getElementById("domain").selectedOptions[0].text.split(" ")[0];
-      const tunnel = document.getElementById("tunnel").value;
-      const ehi = `[http_injector]
-title=MY_UNIFI_${domain}
-payload=${payload}
-sni=${domain}
-proxy_host=${tunnel}
-proxy_port=80
-ssh_host=your_ssh_ip
-ssh_port=80
-ssh_user=your_user
-ssh_pass=your_pass
-`;
-      const blob = new Blob([ehi], {type: "text/plain"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url; a.download = `MY_UNIFI_${domain}.ehi`;
-      a.click();
-    }
+    // Auto-generate on load
+    window.onload = () => {
+      generatePayload();
+    };
   </script>
 </body>
 </html>
