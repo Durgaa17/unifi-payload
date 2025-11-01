@@ -1,5 +1,5 @@
 // ========================================
-// 200+ MALAYSIA ZERO-TIER DOMAINS
+// 215+ MALAYSIA ZERO-TIER DOMAINS
 // ========================================
 const DOMAINS = [
   // === SPEEDTEST & CDN (10) ===
@@ -23,7 +23,7 @@ const DOMAINS = [
   { name: "Google Maps MY", host: "maps.google.com.my", cf: true, zt: true },
   { name: "YouTube Player", host: "youtube.com", cf: true, zt: true },
   { name: "Google Classroom", host: "classroom.google.com", cf: true, zt: true },
-  { name: "YouTube Kids", host: "www.youtube.com", cf: true, zt: true },
+  { name: "YouTube Kids", host: "www.youtubekids.com", cf: true, zt: true },
   { name: "Google Scholar", host: "scholar.google.com.my", cf: true, zt: true },
   { name: "YouTube Music", host: "music.youtube.com", cf: true, zt: true },
   { name: "Google Translate", host: "translate.google.com", cf: true, zt: true },
@@ -276,15 +276,15 @@ const DOMAINS = [
   { name: "iStock", host: "www.istockphoto.com", cf: true, zt: true },
   { name: "Depositphotos", host: "depositphotos.com", cf: true, zt: true },
   { name: "Alamy", host: "www.alamy.com", cf: true, zt: true },
-  { name: "123RF", host: "www.123rf.com", cf: true, zt: true },
-  // Total: 200+ (Count: 10+15+20+25+20+30+15+10+10+20+15+55 = 215)
+  { name: "123RF", host: "www.123rf.com", cf: true, zt: true }
+  // Total: 215+
 ];
 
 // ========================================
 // 100+ PAYLOAD VARIANTS
 // ========================================
 const PAYLOADS = [
-  // === BASIC WS UPGRADES (20) ===
+  // BASIC (20)
   { name: "CF Trace WS", payload: `GET /cdn-cgi/trace HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
   { name: "YouTube 204", payload: `GET /generate_204 HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
   { name: "Google Favicon", payload: `GET /favicon.ico HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
@@ -305,7 +305,7 @@ const PAYLOADS = [
   { name: "MySejahtera", payload: `GET / HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
   { name: "Zoom Meeting", payload: `GET / HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
 
-  // === ADVANCED WITH HEADERS (30) ===
+  // ADVANCED HEADERS (30)
   { name: "CF + Keep-Alive", payload: `GET /cdn-cgi/trace HTTP/1.1[crlf]Host: [DOMAIN][crlf]Connection: Keep-Alive[crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
   { name: "Range Bypass", payload: `GET /cdn-cgi/trace HTTP/1.1[crlf]Host: [DOMAIN][crlf]Range: bytes=0-1024[crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
   { name: "X-Online-Host", payload: `GET / HTTP/1.1[crlf]Host: [DOMAIN][crlf]X-Online-Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
@@ -333,7 +333,7 @@ const PAYLOADS = [
   { name: "X-FB-Net", payload: `GET / HTTP/1.1[crlf]Host: [DOMAIN][crlf]X-FB-Net: true[crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
   { name: "X-YouTube", payload: `GET /s/player/abc123/player_ias.js HTTP/1.1[crlf]Host: [DOMAIN][crlf]X-YouTube: true[crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
 
-  // === SPECIALIZED VARIANTS (50+) ===
+  // SPECIALIZED (50+)
   { name: "Netflix Browse", payload: `GET /browse HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
   { name: "Spotify Browse", payload: `GET /browse HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
   { name: "TikTok Feed", payload: `GET /aweme/v1/feed/ HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
@@ -360,26 +360,22 @@ const PAYLOADS = [
   { name: "Booking Hotel", payload: `GET /hotels HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
   { name: "TripAdvisor", payload: `GET / HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
   { name: "Weather Accu", payload: `GET /en/my/kuala-lumpur/weather HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
-  { name: "IMDB Search", payload: `GET /search HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
+  { name: "IMDB Search", payload: `GET /search HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
   { name: "Goodreads Book", payload: `GET /book/show HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
   { name: "SoundCloud Track", payload: `GET /track HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
   { name: "Vimeo Video", payload: `GET /video HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
   { name: "Dribbble Shot", payload: `GET /shots HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
   { name: "Behance Project", payload: `GET /projects HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
   { name: "Unsplash Photo", payload: `GET /photos HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
-  { name: "Pexels Image", payload: `GET /search HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
-  { name: "Freepik Vector", payload: `GET /vector HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
-  { name: "Shutterstock Stock", payload: `GET /search HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
-  { name: "Getty Image", payload: `GET /photos HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
-  { name: "Coinbase Wallet", payload: `GET /wallet HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
-  { name: "Wise Transfer", payload: `GET /transfer HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
-  { name: "Stripe Payment", payload: `GET /payment HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
-  { name: "Deliveroo Order", payload: `GET /order HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
-  { name: "Uber Ride", payload: `GET /ride HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
-  { name: "Quora Question", payload: `GET /question HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
-  { name: "Stack Overflow Q", payload: `GET /questions HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
-  { name: "Medium Article", payload: `GET /article HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
-  { name: "Tumblr Post", payload: `GET /post HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
-  { name: "Pinterest Pin", payload: `GET /pin HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
-  // Total: 100+ (20 basic + 30 advanced + 50 specialized = 100)
+  { name: "Pexels Image", payload: `GET /v1/search HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
+  { name: "Pixabay Search", payload: `GET /api/ HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
+  { name: "Freepik Vector", payload: `GET /search HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
+  { name: "Envato Elements", payload: `GET / HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
+  { name: "Adobe Stock", payload: `GET /search HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
+  { name: "Shutterstock", payload: `GET / HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
+  { name: "Getty Images", payload: `GET /search HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
+  { name: "iStock Photo", payload: `GET /search HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
+  { name: "Depositphotos", payload: `GET / HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` },
+  { name: "Alamy Stock", payload: `GET /search HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket:[DOMAIN][crlf][crlf]` },
+  { name: "123RF Image", payload: `GET /search HTTP/1.1[crlf]Host: [DOMAIN][crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [TUNNEL][crlf]Connection: Upgrade[crlf]User-Agent: [UA][crlf]Upgrade: websocket[crlf][crlf]` }
 ];
