@@ -3,81 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MY UNIFI PAYLOAD GENERATOR</title>
+  <title>MY UNIFI PAYLOAD v3</title>
   <style>
-    :root { --p: #00ff9d; --d: #0a1a2e; --l: #e0f7fa; }
+    :root { --p: #00ff9d; --d: #0a1a2e; --l: #e0f7fa; --bg: #0a0e17; --card: #0f2a3f; }
+    [data-theme="light"] { --p: #00b86e; --d: #ffffff; --l: #222; --bg: #f5f5f5; --card: #ffffff; }
     * { margin:0; padding:0; box-sizing:border-box; font-family: 'Courier New', monospace; }
-    body { background:#0a0e17; color:var(--l); padding:15px; line-height:1.7; }
-    .container { max-width:600px; margin:auto; background:var(--d); padding:20px; border-radius:12px; border:2px solid var(--p); box-shadow:0 0 15px rgba(0,255,157,0.4); }
+    body { background:var(--bg); color:var(--l); padding:15px; line-height:1.7; transition:0.3s; }
+    .container { max-width:600px; margin:auto; background:var(--card); padding:20px; border-radius:12px; border:2px solid var(--p); box-shadow:0 0 15px rgba(0,255,157,0.3); }
     h1 { text-align:center; color:var(--p); font-size:1.6rem; margin-bottom:8px; }
-    .author { text-align:center; color:#00ff9d; font-weight:bold; font-size:0.9rem; margin-bottom:15px; }
+    .author { text-align:center; color:var(--p); font-weight:bold; font-size:0.9rem; margin-bottom:15px; }
     .disclaimer { background:#220000; color:#ff6b6b; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:20px; border:1px solid #ff4444; }
     .disclaimer strong { color:#ff3333; }
     label { display:block; margin:15px 0 6px; color:var(--p); font-weight:bold; font-size:0.95rem; }
-    select, input { width:100%; padding:11px; border-radius:8px; border:1px solid #004d40; background:#0f2a3f; color:#fff; font-family:monospace; }
+    select, input { width:100%; padding:11px; border-radius:8px; border:1px solid #004d40; background:var(--d); color:var(--l); font-family:monospace; }
     button { width:100%; padding:14px; margin:20px 0 10px; background:var(--p); color:#000; font-weight:bold; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer; transition:0.3s; }
     button:hover { background:#00cc7a; transform:scale(1.01); }
-    .output { margin-top:15px; padding:14px; background:#0f2a3f; border:1px solid var(--p); border-radius:8px; white-space:pre-wrap; font-family:monospace; font-size:0.88rem; max-height:280px; overflow:auto; display:none; }
-    .copy { margin-top:8px; padding:10px; background:#004d40; color:#00ff9d; border:none; cursor:pointer; width:100%; border-radius:6px; font-weight:bold; display:none; }
+    .output { margin-top:15px; padding:14px; background:var(--d); border:1px solid var(--p); border-radius:8px; white-space:pre-wrap; font-family:monospace; font-size:0.88rem; max-height:280px; overflow:auto; display:none; }
+    .copy, .ehi { margin-top:8px; padding:10px; background:#004d40; color:#00ff9d; border:none; cursor:pointer; width:48%; display:inline-block; border-radius:6px; font-weight:bold; display:none; }
+    .ehi { margin-left:4%; background:#33004d; color:#ff00ff; }
+    .theme-toggle { position:fixed; top:15px; right:15px; background:var(--p); color:#000; border:none; padding:10px; border-radius:50%; font-size:1.2rem; cursor:pointer; }
+    .update { text-align:center; font-size:0.8rem; color:#00cc7a; margin-top:10px; }
     .footer { text-align:center; margin-top:25px; font-size:0.75rem; color:#555; }
   </style>
 </head>
 <body>
+  <button class="theme-toggle" onclick="toggleTheme()">Light/Dark</button>
   <div class="container">
-    <h1>MY UNIFI PAYLOAD</h1>
+    <h1>MY UNIFI PAYLOAD v3</h1>
     <div class="author">Code by sivd • Telegram @sivd</div>
 
     <!-- STRONG DISCLAIMER -->
     <div class="disclaimer">
-      <strong>⚠️ LEGAL DISCLAIMER ⚠️</strong><br>
-      This tool is <strong>STRICTLY FOR EDUCATIONAL PURPOSES ONLY</strong>. 
-      We do <strong>NOT promote, support, or encourage</strong> any illegal activity, 
-      bypassing of ISP restrictions, or unauthorized network access. 
-      Use of this tool in violation of local laws, ISP terms, or ethical guidelines 
-      is <strong>YOUR SOLE RESPONSIBILITY</strong>. 
-      The author and distributor assume <strong>NO LIABILITY</strong> for misuse.
+      <strong>LEGAL DISCLAIMER</strong><br>
+      This tool is <strong>FOR EDUCATIONAL PURPOSES ONLY</strong>. 
+      We do <strong>NOT promote illegal bypassing</strong> of ISP restrictions. 
+      All use is at <strong>YOUR OWN RISK</strong>. No liability accepted.
     </div>
 
-    <label>1. Select Domain (Zero-Tier MY)</label>
+    <label>1. Select Domain (215+ MY ZT)</label>
     <select id="domain"></select>
 
-    <label>2. Select Payload Variant (30+)</label>
+    <label>2. Select Payload (100+ Variants)</label>
     <select id="payload"></select>
 
-    <label>3. Tunnel Host (e.g. sg-public3.sshws.net)</label>
-    <input type="text" id="tunnel" placeholder="MUST match your SSH tunnel" />
+    <label>3. Tunnel Host</label>
+    <input type="text" id="tunnel" placeholder="e.g. sg-public3.sshws.net" />
 
-    <button onclick="gen()">GENERATE PAYLOAD ONLY</button>
+    <button onclick="gen()">GENERATE PAYLOAD</button>
 
     <div id="out" class="output"></div>
     <button class="copy" id="copy" onclick="copyIt()">COPY PAYLOAD</button>
+    <button class="ehi" id="ehi" onclick="exportEHI()">EXPORT .EHI</button>
+
+    <div class="update" id="update">Last updated: <span id="date"></span></div>
   </div>
 
   <div class="footer">
-    Add more in <code>data.js</code> • Hosted on GitHub
+    215+ Domains • 100+ Payloads • Add in <code>data.js</code>
   </div>
 
   <script src="data.js"></script>
   <script>
+    // Theme
+    function toggleTheme() {
+      document.body.dataset.theme = document.body.dataset.theme === "light" ? "" : "light";
+      localStorage.setItem("theme", document.body.dataset.theme);
+    }
+    if (localStorage.getItem("theme") === "light") document.body.dataset.theme = "light";
+
+    // Update date
+    document.getElementById("date").textContent = new Date().toLocaleString();
+
     // Populate domains
     const d = document.getElementById("domain");
     DOMAINS.forEach(x => {
-      let o = new Option(`${x.name} ${x.cf?'[CF]':''} ${x.zt?'[ZT]':''}`, x.host);
-      d.add(o);
+      const opt = document.createElement("option");
+      opt.value = x.host;
+      opt.textContent = `${x.name} ${x.cf ? '[CF]' : ''} ${x.zt ? '[ZT]' : ''}`;
+      d.appendChild(opt);
     });
 
     // Populate payloads
     const p = document.getElementById("payload");
     PAYLOADS.forEach((x,i) => {
-      let o = new Option(x.name, i);
-      p.add(o);
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = x.name;
+      p.appendChild(opt);
     });
 
     function gen() {
       const domain = d.value;
       const idx = p.value;
       const tunnel = document.getElementById("tunnel").value.trim();
-
       if (!domain || !tunnel) return alert("Fill Domain & Tunnel Host!");
 
       let payload = PAYLOADS[idx].payload
@@ -88,12 +106,35 @@
       const out = document.getElementById("out");
       out.textContent = payload.replace(/\[crlf\]/g, "\\r\\n");
       out.style.display = "block";
-      document.getElementById("copy").style.display = "block";
+      document.getElementById("copy").style.display = "inline-block";
+      document.getElementById("ehi").style.display = "inline-block";
     }
 
     function copyIt() {
       navigator.clipboard.writeText(document.getElementById("out").textContent)
-        .then(() => alert("Payload copied! Paste in HTTP Injector → Payload"));
+        .then(() => alert("Payload copied! Paste in HTTP Injector"));
+    }
+
+    function exportEHI() {
+      const payload = document.getElementById("out").textContent;
+      const domain = document.getElementById("domain").selectedOptions[0].text.split(" ")[0];
+      const tunnel = document.getElementById("tunnel").value;
+      const ehi = `[http_injector]
+title=MY_UNIFI_${domain}
+payload=${payload}
+sni=${domain}
+proxy_host=${tunnel}
+proxy_port=80
+ssh_host=your_ssh_ip
+ssh_port=80
+ssh_user=your_user
+ssh_pass=your_pass
+`;
+      const blob = new Blob([ehi], {type: "text/plain"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = `MY_UNIFI_${domain}.ehi`;
+      a.click();
     }
   </script>
 </body>
