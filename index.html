@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MY UNIFI BYPASS TOOL</title>
+  <style>
+    :root {
+      --primary: #00d4ff;
+      --dark: #1a1a2e;
+      --light: #eee;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background:#0f0f1a; color:var(--light); padding:20px; line-height:1.6; }
+    .container { max-width:600px; margin:auto; background:var(--dark); padding:25px; border-radius:15px; box-shadow:0 0 20px rgba(0,212,255,0.3); }
+    h1 { text-align:center; color:var(--primary); margin-bottom:20px; font-size:1.8rem; }
+    label { display:block; margin:18px 0 8px; font-weight:600; color:#00d4ff; }
+    select, input { width:100%; padding:12px; border-radius:8px; border:1px solid #333; background:#16213e; color:white; font-size:1rem; }
+    select { height:48px; }
+    button { width:100%; padding:14px; margin-top:25px; background:var(--primary); color:#000; font-weight:bold; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer; transition:0.3s; }
+    button:hover { background:#00b8d4; transform:scale(1.02); }
+    .output { margin-top:25px; padding:15px; background:#16213e; border:1px solid #00d4ff; border-radius:8px; white-space:pre-wrap; font-family:monospace; font-size:0.9rem; max-height:300px; overflow:auto; display:none; }
+    .copy-btn { margin-top:10px; padding:10px; background:#333; color:#0f0; border:none; cursor:pointer; width:100%; border-radius:6px; }
+    .footer { text-align:center; margin-top:30px; font-size:0.8rem; color:#666; }
+    .tag { display:inline-block; background:#00d4ff; color:#000; padding:3px 8px; border-radius:12px; font-size:0.7rem; margin-left:5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MY UNIFI BYPASS TOOL</h1>
+    <p style="text-align:center; font-size:0.9rem; color:#aaa;">Zero-Tier Domains + Payloads + SSH</p>
+
+    <!-- STEP 1: DOMAIN -->
+    <label>1. Select Domain <span class="tag">100+</span></label>
+    <select id="domainSelect"></select>
+
+    <!-- STEP 2: PAYLOAD -->
+    <label>2. Select Payload Type <span class="tag">50+</span></label>
+    <select id="payloadSelect"></select>
+
+    <!-- STEP 3: SSH & TUNNEL -->
+    <label>3. SSH Host (IP:PORT)</label>
+    <input type="text" id="sshHost" placeholder="e.g. 104.17.148.22:80" />
+
+    <label>4. SSH Username</label>
+    <input type="text" id="sshUser" placeholder="e.g. raam" />
+
+    <label>5. SSH Password</label>
+    <input type="text" id="sshPass" placeholder="e.g. raam123" />
+
+    <label>6. Tunnel Host <span class="tag">MUST MATCH PAYLOAD</span></label>
+    <input type="text" id="tunnelHost" placeholder="e.g. sg-public3.sshws.net" />
+
+    <button onclick="generateConfig()">GENERATE CONFIG</button>
+
+    <div id="output" class="output"></div>
+    <button class="copy-btn" onclick="copyOutput()" style="display:none;" id="copyBtn">COPY TO CLIPBOARD</button>
+  </div>
+
+  <div class="footer">
+    Hosted on GitHub • Add domains/payloads in <code>data.js</code>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+    // Load domains
+    const domainSelect = document.getElementById("domainSelect");
+    MALAYSIA_DOMAINS.forEach(d => {
+      let opt = document.createElement("option");
+      opt.value = d.host;
+      opt.textContent = `${d.name} ${d.cf ? '[CF]' : ''} ${d.zt ? '[ZT]' : ''}`;
+      domainSelect.appendChild(opt);
+    });
+
+    // Load payloads
+    const payloadSelect = document.getElementById("payloadSelect");
+    PAYLOAD_TEMPLATES.forEach((p, i) => {
+      let opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = p.name;
+      payloadSelect.appendChild(opt);
+    });
+
+    function generateConfig() {
+      const domain = document.getElementById("domainSelect").value;
+      const payloadIdx = document.getElementById("payloadSelect").value;
+      const sshHost = document.getElementById("sshHost").value.trim();
+      const sshUser = document.getElementById("sshUser").value.trim();
+      const sshPass = document.getElementById("sshPass").value.trim();
+      const tunnelHost = document.getElementById("tunnelHost").value.trim();
+
+      if (!domain || !tunnelHost || !sshHost || !sshUser || !sshPass) {
+        alert("Please fill all fields!");
+        return;
+      }
+
+      const template = PAYLOAD_TEMPLATES[payloadIdx];
+      const payload = template.payload
+        .replace(/\[DOMAIN\]/g, domain)
+        .replace(/\[TUNNEL\]/g, tunnelHost)
+        .replace(/\[UA\]/g, "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)");
+
+      const config = `=== HTTP INJECTOR CONFIG ===\n\n` +
+        `SSH: ${sshHost}@${sshUser}:${sshPass}\n` +
+        `Tunnel: ${tunnelHost}\n` +
+        `Domain: ${domain}\n` +
+        `Payload Type: ${template.name}\n\n` +
+        `PAYLOAD:\n${payload.replace(/\[crlf\]/g, "\\r\\n")}\n\n` +
+        `SNI: ${domain}\n` +
+        `Keep Alive: ON\n` +
+        `Connect via Proxy: OFF`;
+
+      const output = document.getElementById("output");
+      output.textContent = config;
+      output.style.display = "block";
+      document.getElementById("copyBtn").style.display = "block";
+    }
+
+    function copyOutput() {
+      const text = document.getElementById("output").textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard!");
+      });
+    }
+  </script>
+</body>
+</html>
