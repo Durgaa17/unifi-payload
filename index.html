@@ -3,124 +3,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MY UNIFI BYPASS TOOL</title>
+  <title>MY UNIFI PAYLOAD GENERATOR</title>
   <style>
-    :root {
-      --primary: #00d4ff;
-      --dark: #1a1a2e;
-      --light: #eee;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
-    body { background:#0f0f1a; color:var(--light); padding:20px; line-height:1.6; }
-    .container { max-width:600px; margin:auto; background:var(--dark); padding:25px; border-radius:15px; box-shadow:0 0 20px rgba(0,212,255,0.3); }
-    h1 { text-align:center; color:var(--primary); margin-bottom:20px; font-size:1.8rem; }
-    label { display:block; margin:18px 0 8px; font-weight:600; color:#00d4ff; }
-    select, input { width:100%; padding:12px; border-radius:8px; border:1px solid #333; background:#16213e; color:white; font-size:1rem; }
-    select { height:48px; }
-    button { width:100%; padding:14px; margin-top:25px; background:var(--primary); color:#000; font-weight:bold; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer; transition:0.3s; }
-    button:hover { background:#00b8d4; transform:scale(1.02); }
-    .output { margin-top:25px; padding:15px; background:#16213e; border:1px solid #00d4ff; border-radius:8px; white-space:pre-wrap; font-family:monospace; font-size:0.9rem; max-height:300px; overflow:auto; display:none; }
-    .copy-btn { margin-top:10px; padding:10px; background:#333; color:#0f0; border:none; cursor:pointer; width:100%; border-radius:6px; }
-    .footer { text-align:center; margin-top:30px; font-size:0.8rem; color:#666; }
-    .tag { display:inline-block; background:#00d4ff; color:#000; padding:3px 8px; border-radius:12px; font-size:0.7rem; margin-left:5px; }
+    :root { --p: #00ff9d; --d: #0a1a2e; --l: #e0f7fa; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Courier New', monospace; }
+    body { background:#0a0e17; color:var(--l); padding:15px; line-height:1.7; }
+    .container { max-width:600px; margin:auto; background:var(--d); padding:20px; border-radius:12px; border:2px solid var(--p); box-shadow:0 0 15px rgba(0,255,157,0.4); }
+    h1 { text-align:center; color:var(--p); font-size:1.6rem; margin-bottom:8px; }
+    .author { text-align:center; color:#00ff9d; font-weight:bold; font-size:0.9rem; margin-bottom:15px; }
+    .disclaimer { background:#220000; color:#ff6b6b; padding:12px; border-radius:8px; font-size:0.85rem; margin-bottom:20px; border:1px solid #ff4444; }
+    .disclaimer strong { color:#ff3333; }
+    label { display:block; margin:15px 0 6px; color:var(--p); font-weight:bold; font-size:0.95rem; }
+    select, input { width:100%; padding:11px; border-radius:8px; border:1px solid #004d40; background:#0f2a3f; color:#fff; font-family:monospace; }
+    button { width:100%; padding:14px; margin:20px 0 10px; background:var(--p); color:#000; font-weight:bold; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer; transition:0.3s; }
+    button:hover { background:#00cc7a; transform:scale(1.01); }
+    .output { margin-top:15px; padding:14px; background:#0f2a3f; border:1px solid var(--p); border-radius:8px; white-space:pre-wrap; font-family:monospace; font-size:0.88rem; max-height:280px; overflow:auto; display:none; }
+    .copy { margin-top:8px; padding:10px; background:#004d40; color:#00ff9d; border:none; cursor:pointer; width:100%; border-radius:6px; font-weight:bold; display:none; }
+    .footer { text-align:center; margin-top:25px; font-size:0.75rem; color:#555; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>MY UNIFI BYPASS TOOL</h1>
-    <p style="text-align:center; font-size:0.9rem; color:#aaa;">Zero-Tier Domains + Payloads + SSH</p>
+    <h1>MY UNIFI PAYLOAD</h1>
+    <div class="author">Code by sivd • Telegram @sivd</div>
 
-    <!-- STEP 1: DOMAIN -->
-    <label>1. Select Domain <span class="tag">100+</span></label>
-    <select id="domainSelect"></select>
+    <!-- STRONG DISCLAIMER -->
+    <div class="disclaimer">
+      <strong>⚠️ LEGAL DISCLAIMER ⚠️</strong><br>
+      This tool is <strong>STRICTLY FOR EDUCATIONAL PURPOSES ONLY</strong>. 
+      We do <strong>NOT promote, support, or encourage</strong> any illegal activity, 
+      bypassing of ISP restrictions, or unauthorized network access. 
+      Use of this tool in violation of local laws, ISP terms, or ethical guidelines 
+      is <strong>YOUR SOLE RESPONSIBILITY</strong>. 
+      The author and distributor assume <strong>NO LIABILITY</strong> for misuse.
+    </div>
 
-    <!-- STEP 2: PAYLOAD -->
-    <label>2. Select Payload Type <span class="tag">50+</span></label>
-    <select id="payloadSelect"></select>
+    <label>1. Select Domain (Zero-Tier MY)</label>
+    <select id="domain"></select>
 
-    <!-- STEP 3: SSH & TUNNEL -->
-    <label>3. SSH Host (IP:PORT)</label>
-    <input type="text" id="sshHost" placeholder="e.g. 104.17.148.22:80" />
+    <label>2. Select Payload Variant (30+)</label>
+    <select id="payload"></select>
 
-    <label>4. SSH Username</label>
-    <input type="text" id="sshUser" placeholder="e.g. raam" />
+    <label>3. Tunnel Host (e.g. sg-public3.sshws.net)</label>
+    <input type="text" id="tunnel" placeholder="MUST match your SSH tunnel" />
 
-    <label>5. SSH Password</label>
-    <input type="text" id="sshPass" placeholder="e.g. raam123" />
+    <button onclick="gen()">GENERATE PAYLOAD ONLY</button>
 
-    <label>6. Tunnel Host <span class="tag">MUST MATCH PAYLOAD</span></label>
-    <input type="text" id="tunnelHost" placeholder="e.g. sg-public3.sshws.net" />
-
-    <button onclick="generateConfig()">GENERATE CONFIG</button>
-
-    <div id="output" class="output"></div>
-    <button class="copy-btn" onclick="copyOutput()" style="display:none;" id="copyBtn">COPY TO CLIPBOARD</button>
+    <div id="out" class="output"></div>
+    <button class="copy" id="copy" onclick="copyIt()">COPY PAYLOAD</button>
   </div>
 
   <div class="footer">
-    Hosted on GitHub • Add domains/payloads in <code>data.js</code>
+    Add more in <code>data.js</code> • Hosted on GitHub
   </div>
 
   <script src="data.js"></script>
   <script>
-    // Load domains
-    const domainSelect = document.getElementById("domainSelect");
-    MALAYSIA_DOMAINS.forEach(d => {
-      let opt = document.createElement("option");
-      opt.value = d.host;
-      opt.textContent = `${d.name} ${d.cf ? '[CF]' : ''} ${d.zt ? '[ZT]' : ''}`;
-      domainSelect.appendChild(opt);
+    // Populate domains
+    const d = document.getElementById("domain");
+    DOMAINS.forEach(x => {
+      let o = new Option(`${x.name} ${x.cf?'[CF]':''} ${x.zt?'[ZT]':''}`, x.host);
+      d.add(o);
     });
 
-    // Load payloads
-    const payloadSelect = document.getElementById("payloadSelect");
-    PAYLOAD_TEMPLATES.forEach((p, i) => {
-      let opt = document.createElement("option");
-      opt.value = i;
-      opt.textContent = p.name;
-      payloadSelect.appendChild(opt);
+    // Populate payloads
+    const p = document.getElementById("payload");
+    PAYLOADS.forEach((x,i) => {
+      let o = new Option(x.name, i);
+      p.add(o);
     });
 
-    function generateConfig() {
-      const domain = document.getElementById("domainSelect").value;
-      const payloadIdx = document.getElementById("payloadSelect").value;
-      const sshHost = document.getElementById("sshHost").value.trim();
-      const sshUser = document.getElementById("sshUser").value.trim();
-      const sshPass = document.getElementById("sshPass").value.trim();
-      const tunnelHost = document.getElementById("tunnelHost").value.trim();
+    function gen() {
+      const domain = d.value;
+      const idx = p.value;
+      const tunnel = document.getElementById("tunnel").value.trim();
 
-      if (!domain || !tunnelHost || !sshHost || !sshUser || !sshPass) {
-        alert("Please fill all fields!");
-        return;
-      }
+      if (!domain || !tunnel) return alert("Fill Domain & Tunnel Host!");
 
-      const template = PAYLOAD_TEMPLATES[payloadIdx];
-      const payload = template.payload
+      let payload = PAYLOADS[idx].payload
         .replace(/\[DOMAIN\]/g, domain)
-        .replace(/\[TUNNEL\]/g, tunnelHost)
-        .replace(/\[UA\]/g, "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)");
+        .replace(/\[TUNNEL\]/g, tunnel)
+        .replace(/\[UA\]/g, "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1");
 
-      const config = `=== HTTP INJECTOR CONFIG ===\n\n` +
-        `SSH: ${sshHost}@${sshUser}:${sshPass}\n` +
-        `Tunnel: ${tunnelHost}\n` +
-        `Domain: ${domain}\n` +
-        `Payload Type: ${template.name}\n\n` +
-        `PAYLOAD:\n${payload.replace(/\[crlf\]/g, "\\r\\n")}\n\n` +
-        `SNI: ${domain}\n` +
-        `Keep Alive: ON\n` +
-        `Connect via Proxy: OFF`;
-
-      const output = document.getElementById("output");
-      output.textContent = config;
-      output.style.display = "block";
-      document.getElementById("copyBtn").style.display = "block";
+      const out = document.getElementById("out");
+      out.textContent = payload.replace(/\[crlf\]/g, "\\r\\n");
+      out.style.display = "block";
+      document.getElementById("copy").style.display = "block";
     }
 
-    function copyOutput() {
-      const text = document.getElementById("output").textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Copied to clipboard!");
-      });
+    function copyIt() {
+      navigator.clipboard.writeText(document.getElementById("out").textContent)
+        .then(() => alert("Payload copied! Paste in HTTP Injector → Payload"));
     }
   </script>
 </body>
